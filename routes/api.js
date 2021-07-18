@@ -15,12 +15,11 @@ router.get('/categories', async function (req, res, next) {
 });
 
 //GET /questions
-router.get('/questions', async function (req, res, next) {
+//http://localhost:3000/api/v1/categories/4/questions //req.params
+
+router.get('/categories/:categoryId/questions', async function (req, res, next) {
   // req.query, req.query.categoryId 
-  app.get('/questions',() => {
-    console.log(req.query.categoryId)
-  })
-  let questions = await Question.findAll({where: {categoryID: 'something that you send from the front end'}})
+  let questions = await Question.findAll({where: {categoryId: req.params.categoryId }})
   res.json(questions)
 });
 
