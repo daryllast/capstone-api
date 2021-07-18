@@ -19,6 +19,7 @@ router.get('/categories', async function (req, res, next) {
 
 router.get('/categories/:categoryId/questions', async function (req, res, next) {
   // req.query, req.query.categoryId 
+  console.log(req.params)
   let questions = await Question.findAll({where: {categoryId: req.params.categoryId }})
   res.json(questions)
 });
@@ -31,6 +32,19 @@ router.get('/answers', async function (req, res, next) {
   })
   let answers = await Answer.findAll({where: {questionID: 'something that you send from the front end'}})
   res.json(answers)
+});
+
+//POST questions
+router.post('/categories/:categoryId/questions', async function (req, res, next) {
+  //r req.query, req.query.questionId 
+  console.log('req.body', req.body)
+    console.log('req.params', req.params)
+    req.body.categoryId = req.params.categoryId
+    console.log('the final body is', req.body)
+  // let answers = await Answer.findAll({where: {questionID: 'something that you send from the front end'}})
+let question = await Question.create(req.body)
+  res.json(question)
+ 
 });
 
 router.get('/test', function(req, res, next) {
