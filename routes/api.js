@@ -25,16 +25,13 @@ router.get('/categories/:categoryId/questions', async function (req, res, next) 
 });
 
 //GET /answers
-router.get('/answers', async function (req, res, next) {
-  //r req.query, req.query.questionId 
-  app.get('/answers',() => {
-    console.log(req.query.questionId)
-  })
-  let answers = await Answer.findAll({where: {questionID: 'something that you send from the front end'}})
+router.get('/questions/:questionId/answers', async function(req, res, next) {
+  // HINT: req.query, req.query.questionId
+  let answers = await Answer.findAll({where: {questionId: req.params.questionId}})
   res.json(answers)
 });
 
-//POST questions
+// POST questions - create an answer for category
 router.post('/categories/:categoryId/questions', async function (req, res, next) {
   //r req.query, req.query.questionId 
   console.log('req.body', req.body)
@@ -44,6 +41,20 @@ router.post('/categories/:categoryId/questions', async function (req, res, next)
   // let answers = await Answer.findAll({where: {questionID: 'something that you send from the front end'}})
 let question = await Question.create(req.body)
   res.json(question)
+ 
+});
+
+
+//POST answers
+router.post('/questions/:questionId/answers', async function (req, res, next) {
+  //r req.query, req.query.questionId 
+  console.log('req.body', req.body)
+    console.log('req.params', req.params)
+    req.body.questionId = req.params.questionId
+    console.log('the final body is', req.body)
+  // let answers = await Answer.findAll({where: {questionID: 'something that you send from the front end'}})
+let answer = await Answer.create(req.body)
+  res.json(answer)
  
 });
 
